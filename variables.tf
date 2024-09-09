@@ -9,3 +9,9 @@ variable "project_name" {
   type        = string
   default     = "youverify"
 }
+
+variable "cluster_name" {
+  description = "Name of the project, used for resource naming"
+  type        = string
+  default     = "youverify-cluster"
+}

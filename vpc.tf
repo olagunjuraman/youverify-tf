@@ -115,6 +115,13 @@ resource "aws_flow_log" "vpc_flow_logs" {
 }
 
 
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+
+
+
 
 resource "aws_cloudwatch_log_group" "vpc_flow_log_group" {
   name = "/aws/vpc-flow-log/${var.project_name}"

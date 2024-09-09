@@ -5,9 +5,11 @@ resource "aws_eks_cluster" "youverify_cluster" {
   vpc_config {
     subnet_ids = concat(
       aws_subnet.youverify_public_subnet[*].id,
-      /*aws_subnet.youverify_private_subnet[*].id*/
+      aws_subnet.youverify_private_subnet[*].id
     )
-    /* security_group_ids = [aws_security_group.eks_cluster_sg.id] */
+    endpoint_private_access = true
+    endpoint_public_access  = true
+   /* security_group_ids = [aws_security_group.eks_cluster_sg.id] */
   }
 
   encryption_config {
@@ -24,12 +26,12 @@ resource "aws_eks_node_group" "youverify_node_group" {
   cluster_name    = aws_eks_cluster.youverify_cluster.name
   node_group_name = "youverify-node-group"
   node_role_arn   = aws_iam_role.youverify_eks_node_role.arn
-  subnet_ids      = aws_subnet.youverify_public_subnet[*].id
+  subnet_ids      = aws_subnet.youverify_private_subnet[*].id
 
   scaling_config {
-    desired_size = 2
-    max_size     = 3
-    min_size     = 1
+    desired_size = 3
+    max_size     = 5
+    min_size     = 3
   }
 
   depends_on = [
